@@ -1,24 +1,47 @@
 public class SortOfSort {
 
-    public void sortOfSort(int[] array){
-        for(int i = 0; i < array.length - 1; i++){
-            for(int j = 0; j < array.length - i - 1; j++){
+    public static void sortOfSort(int[] array) {
+        int n = array.length;       // n will help for loops don't check elements that have already been sorted
+        int count = 0;              // count will help for loops don't check elements that have already been sorted
 
-                // Moves max number to the right
-                if (array[j] > array[j + 1]) {
-                    int temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
+        while(n >= count + 2) {     // Limit should ensure method does not go out of bounds
+
+            /*
+             Finds highest number and sorts it to the right end of the array while ignoring numbers that
+             have already been sorted.
+             */
+            for (int i = n - 1; i >= n - 3; i--) {
+                int maxIndex = i;
+                for (int j = i - 1; j >= count; j--) {
+                    if (array[j] > array[maxIndex]) {
+                        maxIndex = j;
+                    }
                 }
-
-                // Moves min number to the left
-                if (array[j] < array[j + 1]) {
-                    int temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
-                }
-
+                int temp = array[maxIndex];
+                array[maxIndex] = array[i];
+                array[i] = temp;
             }
+
+            n -= 2;
+
+            /*
+             Finds highest number and sorts it to the left end of the array while ignoring numbers that
+             have already been sorted.
+             */
+            for (int i = count; i < 2 + count; i++) {
+                int maxIndex = i;
+                for (int j = i + 1; j < n; j++) {
+                    if (array[j] > array[maxIndex]) {
+                        maxIndex = j;
+                    }
+                }
+                int temp = array[maxIndex];
+                array[maxIndex] = array[i];
+                array[i] = temp;
+            }
+
+            count += 2;
         }
     }
 }
+
